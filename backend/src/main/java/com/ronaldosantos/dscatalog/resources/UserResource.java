@@ -20,6 +20,8 @@ import com.ronaldosantos.dscatalog.dto.UserDTO;
 import com.ronaldosantos.dscatalog.dto.UserInsertDTO;
 import com.ronaldosantos.dscatalog.services.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/users")
 public class UserResource {
