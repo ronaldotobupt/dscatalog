@@ -18,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
@@ -31,8 +32,9 @@ import com.ronaldosantos.dscatalog.services.ProductService;
 import com.ronaldosantos.dscatalog.services.exceptions.DatabaseException;
 import com.ronaldosantos.dscatalog.services.exceptions.ResourceNotFoundException;
 import com.ronaldosantos.dscatalog.tests.Factory;
+import com.ronaldosantos.dscatalog.tests.TokenUtil;
 
-@WebMvcTest(ProductResource.class)
+@WebMvcTest(value = ProductResource.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 public class ProductResourceTests {
 	
 	@Autowired
@@ -44,18 +46,21 @@ public class ProductResourceTests {
 	@MockBean
 	private ProductService service;
 	
+	
+	
 	private ProductDTO productDTO;
 	private PageImpl<ProductDTO> page;
 	private Long existingId;
 	private Long nonExistingId;
 	private Long dependentId;
 	
+	
 	@BeforeEach
 	void variaveis() throws Exception {
 		existingId = 1L;
 		nonExistingId = 100L;
 		dependentId = 3L;
-		
+				
 		productDTO = Factory.createProductDTO();
 		page = new PageImpl<>(List.of(productDTO));
 		when(service.findAllPaged(ArgumentMatchers.any())).thenReturn(page);
@@ -136,6 +141,7 @@ public class ProductResourceTests {
 	public void deleteShouldDoNothingWhenIdExists() throws Exception {
 	
 		ResultActions result = mockMvc.perform(delete("/products/{id}", existingId).accept(MediaType.APPLICATION_JSON));
+		
 		result.andExpect(status().isNoContent());
 	}
 	

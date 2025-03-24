@@ -3,12 +3,12 @@ package com.ronaldosantos.dscatalog.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.ronaldosantos.dscatalog.entities.Role;
+import com.ronaldosantos.dscatalog.entities.PasswordRecover;
 
 
 @Repository
-public interface RoleRepository extends JpaRepository<Role, Long> {
+public interface PasswordRecoverRepository extends JpaRepository<PasswordRecover, Long> {
 	
-	Role findByAuthority(String authority);
+	
 
 }
